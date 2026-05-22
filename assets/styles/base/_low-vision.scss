@@ -1,0 +1,486 @@
+@use "./mixins" as *;
+
+/**
+ * Спецверсия: крупнее типографика, высокий контраст,
+ * упрощённые фоны (без «маркетинговых» картинок),
+ * статичнее интерфейс. Частично через !important — из‑за inline theme vars на `<html>`
+ * (--layout-project-accent и т.д.) и scoped‑стилей компонентов.
+ */
+html.low-vision
+{
+	/* --- Токены спецрежима ------------------------------------------ */
+	--lv-text: #0c1020;
+	--lv-text-muted: #1e293b;
+	--lv-bg-page: #f6f8fd;
+	--lv-bg-panel: #eef2fb;
+	--lv-border-strong: #0d2670;
+	--lv-link: #000e8f;
+	--lv-link-hover: #000066;
+	--lv-focus-ring: #000080;
+
+	-webkit-font-smoothing: antialiased;
+
+	/* Больше база, чтобы было видно режим без лупы */
+	font-size: 125%;
+
+	body
+	{
+		color: var(--lv-text);
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		background-color: var(--lv-bg-page);
+		line-height: 1.65;
+	}
+
+	/* Основная колонка и типографические переменные */
+	.main-content,
+	body
+	{
+		--font-size-base: 20px;
+
+		--font-size-h1: 42px;
+		--font-size-h2: 32px;
+		--font-size-h3: 26px;
+		--font-size-h4: 22px;
+		--font-size-h5: 20px;
+
+		--font-size-p-default: 18px;
+		--line-height-p-default: 26px;
+		--font-size-p-mini: 15px;
+		--line-height-p-mini: 22px;
+	}
+
+	@include desktop-small-down()
+	{
+		.main-content,
+		body
+		{
+			--font-size-base: 18px;
+		}
+	}
+
+	@include mobile()
+	{
+		.main-content,
+		body
+		{
+			--font-size-base: 17px;
+		}
+	}
+
+	/* Классы из _typography / контентные размеры */
+	.text-big
+	{
+		font-size: 20px !important;
+		line-height: 138% !important;
+		font-weight: 600;
+	}
+
+	.text
+	{
+		font-size: 18px !important;
+		line-height: 135% !important;
+		font-weight: 450;
+	}
+
+	.text-mini
+	{
+		font-size: 15px !important;
+		line-height: 132% !important;
+		font-weight: 550;
+	}
+
+	.button
+	{
+		font-size: 17px !important;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+	}
+
+	/* Заголовки */
+	:is(.h1, .h2, .h3, .h4, .h5)
+	{
+		color: var(--lv-text);
+		line-height: 1.22;
+		letter-spacing: 0.04em;
+	}
+
+	.h1 { font-size: 54px !important; }
+	.h2 { font-size: 40px !important; }
+
+	@include tablet()
+	{
+		.h1 { font-size: 36px !important; }
+		.h2 { font-size: 30px !important; }
+	}
+
+	@include mobile()
+	{
+		.h1 { font-size: 30px !important; }
+		.h2 { font-size: 26px !important; }
+		.h3 { font-size: 22px !important; }
+	}
+
+	.main-content :is(h1, h2, h3, h4)
+	{
+		color: var(--lv-text);
+	}
+
+	a
+	{
+		color: var(--lv-link);
+		text-decoration: underline solid currentcolor .12em;
+		text-underline-offset: .22em;
+
+		&:hover
+		{
+			color: var(--lv-link-hover);
+		}
+
+		&:where([class*="header__"]),
+		&:where([class*="header-burger"]),
+		&:where(.no-ul)
+		{
+			text-decoration: none !important;
+
+			&:hover
+			{
+				text-decoration: underline solid currentcolor .12em !important;
+				text-underline-offset: .22em;
+			}
+		}
+	}
+
+	:focus-visible
+	{
+		outline: 3px solid var(--lv-focus-ring) !important;
+		outline-offset: 4px !important;
+		box-shadow: none !important;
+	}
+
+	/* Почти статичная верстка (меньше «живости» интерфейса) */
+	:where(*, *::before, *::after)
+	{
+		transition-duration: .05ms !important;
+		transition-delay: 0ms !important;
+		animation-duration: .08ms !important;
+		animation-iteration-count: 1 !important;
+		animation-delay: -1ms !important;
+	}
+
+	/* Убираем размытые overlay — чётче текст на мобильных */
+	:is(.header-burger-overlay),
+	:is([class*="backdrop"])
+	{
+		backdrop-filter: none !important;
+		background-color: rgb(255 255 255 / .92) !important;
+	}
+
+	.header-burger-panel
+	{
+		background-color: var(--lv-bg-panel) !important;
+		box-shadow: -4px 0 18px rgb(13 38 112 / .12) !important;
+		border-left: 4px solid var(--lv-border-strong) !important;
+
+		a,
+		.header-burger-panel__nav-title,
+		.header-burger-panel__buttons-item
+		{
+			color: var(--lv-text) !important;
+		}
+
+		.header-burger-panel__links-link,
+		.header-burger-panel__nav-item
+		{
+			font-weight: 600 !important;
+		}
+
+		.header-burger-panel__buttons-icon
+		{
+			background-color: #fff !important;
+			border: 2px solid var(--lv-border-strong) !important;
+			box-sizing: border-box;
+
+			svg
+			{
+				color: var(--lv-border-strong) !important;
+			}
+		}
+
+		button.header-burger-panel__buttons-item
+		{
+			color: var(--lv-text) !important;
+			font-weight: 600 !important;
+		}
+
+		.header-burger-panel__sign-up
+		{
+			color: var(--lv-border-strong) !important;
+			background-color: #fff !important;
+			border: 2px solid var(--lv-border-strong) !important;
+			box-sizing: border-box;
+			font-weight: 700 !important;
+		}
+
+		button.header-burger-panel__sign-up
+		{
+			cursor: pointer;
+		}
+
+		button[aria-pressed="true"][class*="buttons-item"]
+		{
+			box-shadow: inset 0 0 0 2px var(--lv-border-strong);
+		}
+	}
+
+	/* --- Шапка: светлый блок, тёмный текст (перебивает accent) --------- */
+	.header
+	{
+		background-color: #fff !important;
+		border-bottom: 3px solid var(--lv-border-strong) !important;
+		box-sizing: border-box;
+		box-shadow: 0 1px 0 rgb(13 38 112 / .12);
+
+		/* Главная: дата · время были белые поверх промо‑фона */
+		&.header--main-hero .header__date
+		{
+			color: #0a0a0a !important;
+			text-shadow: none !important;
+
+			svg,
+			path
+			{
+				color: #0a0a0a !important;
+				fill: currentcolor !important;
+				stroke: currentcolor !important;
+			}
+		}
+
+		a,
+		.header__link
+		{
+			font-weight: 600;
+			color: var(--lv-text) !important;
+
+			svg,
+			path
+			{
+				color: inherit !important;
+			}
+
+			&:hover
+			{
+				text-decoration: underline !important;
+			}
+		}
+
+		a.header__button,
+		button.header__button
+		{
+			background-color: var(--lv-border-strong) !important;
+			box-shadow: 0 2px 0 #00000030;
+			box-sizing: border-box;
+
+			svg
+			{
+				color: #fff !important;
+			}
+
+			&:hover,
+			&:focus-visible
+			{
+				transform: none !important;
+			}
+
+			&.header__button--light
+			{
+				background-color: #fff !important;
+				border: 2px solid var(--lv-border-strong) !important;
+				box-shadow: none;
+
+				svg
+				{
+					color: var(--lv-border-strong) !important;
+				}
+			}
+
+			&[aria-pressed="true"]:not(.header__button--light)
+			{
+				background-color: #102a74 !important;
+			}
+
+			&.header__button--light[aria-pressed="true"]
+			{
+				background-color: #e8edfc !important;
+				box-shadow: inset 0 0 0 2px var(--lv-border-strong);
+			}
+
+			&[aria-pressed="true"]
+			{
+				outline: 3px solid var(--lv-focus-ring);
+				outline-offset: 3px;
+			}
+
+			svg path
+			{
+				fill: currentcolor;
+			}
+		}
+
+	}
+
+	/* Бургер: линии остаются тёмными (дефолт «open» красил в белый на светлом фоне) */
+	button.burger-button .burger-button__line,
+	button.burger-button.burger-button--open .burger-button__line
+	{
+		background-color: var(--lv-border-strong) !important;
+	}
+
+	/* --- Информер режима ---------------------------------------------- */
+	.default-layout
+	{
+		box-sizing: border-box;
+	}
+
+	/* --- Страничные секции: без фонового пейзажа ----------------------- */
+	.section
+	{
+		background: none !important;
+		background-color: var(--lv-bg-page) !important;
+		background-image: none !important;
+	}
+
+	/* --- Футер: ровное поле текста над спокойным фоном ---------------- */
+	.footer
+	{
+		--lv-footer-text: var(--lv-text);
+		position: relative;
+		margin-top: 80px !important;
+		box-shadow: 0 -2px 0 var(--lv-border-strong);
+		border-top: 2px solid var(--lv-border-strong);
+		background: var(--lv-bg-panel);
+
+		a,
+		.footer__contacts-social-text,
+		.footer__contacts-title.h3,
+		.footer__nav-title,
+		.footer__nav-item,
+		.footer__nav-extra
+		{
+			color: var(--lv-footer-text) !important;
+			font-weight: 600;
+		}
+
+		.footer__nav-item
+		{
+			font-weight: 500;
+			text-decoration: underline;
+			text-underline-offset: .2em;
+
+			&:hover
+			{
+				border-color: currentcolor !important;
+			}
+		}
+
+		.footer__image
+		{
+			display: none !important;
+			height: 0 !important;
+			min-height: 0 !important;
+			overflow: hidden !important;
+		}
+
+		.footer__image::after
+		{
+			display: none !important;
+			content: none !important;
+		}
+
+		.footer__contacts
+		{
+			grid-row: unset;
+			grid-column: unset;
+			position: relative;
+			align-self: stretch;
+			margin-top: 0 !important;
+			padding-block: clamp(28px, 4vw, 48px);
+		}
+
+		.footer__contacts-right
+		{
+			max-width: 100%;
+			margin-inline: auto;
+
+			h3.footer__contacts-title,
+			h3.h3.footer__contacts-title,
+			h3[class*="footer__contacts-title"]
+			{
+				text-transform: none;
+				color: var(--lv-footer-text) !important;
+
+				br
+				{
+					display: none;
+				}
+			}
+		}
+
+		.footer__contacts-social-icon
+		{
+			background: #ffffff !important;
+			border-radius: 8px !important;
+			border: 2px solid var(--lv-border-strong) !important;
+			box-sizing: border-box;
+
+			svg,
+			path
+			{
+				color: var(--lv-border-strong) !important;
+			}
+		}
+
+		.footer__contacts-social-item
+		{
+			border-radius: 8px !important;
+
+			a
+			{
+				text-decoration: none !important;
+				border-radius: 8px;
+				box-shadow: 0 0 0 1px rgb(13 38 112 / .25);
+
+				&:hover
+				{
+					text-decoration: underline !important;
+					box-shadow: 0 0 0 2px var(--lv-border-strong);
+				}
+			}
+		}
+
+		.footer__bottom
+		{
+			background: #dfe6f9 !important;
+			border-top: 2px solid var(--lv-border-strong);
+			color: var(--lv-text) !important;
+		}
+	}
+
+	/* --- Прочее: доп. читаемость для img / swiper ----------------------- */
+	img,
+	video,
+	iframe:not([hidden])
+	{
+		max-width: 100%;
+	}
+
+	picture:not(.footer picture) img
+	{
+		filter: grayscale(.15) contrast(1.05);
+	}
+
+	:is(.swiper, .swiper-wrapper, .swiper-slide)
+	{
+		will-change: auto !important;
+	}
+}

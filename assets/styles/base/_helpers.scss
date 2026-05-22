@@ -1,0 +1,166 @@
+@use "mixins" as *;
+
+/* Контейнеры */
+
+/*
+  .container
+  Адаптивный центрированный контейнер с отступами.
+*/
+.container
+{
+  // Базовые стили для desktop (самый большой размер)
+  width: 100%;
+  max-width: 1364px;
+  padding: 80px var(--container-padding);
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  // Десктоп малый и меньше
+  @include tablet()
+  {
+		max-width: 100%;
+		padding: 70px var(--container-padding);
+  }
+}
+
+/*
+  .container-center
+  Центрирует контент по горизонтали и вертикали.
+*/
+.container-center
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 var(--container-padding);
+  margin: 0 auto;
+  // Базовые стили для desktop (самый большой размер)
+  max-width: 1400px;
+  box-sizing: border-box;
+
+  // Десктоп малый и меньше
+  @include desktop-small-down()
+  {
+    max-width: 1200px;
+  }
+}
+
+/*
+  .container-fluid
+  Контейнер на всю ширину окна без отступов.
+*/
+.container-fluid
+{
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/*
+  .container-narrow
+  Узкий контейнер (максимальная ширина 800px).
+  Используется для контента, где нужно ограничить ширину для лучшей читаемости.
+*/
+.container-narrow
+{
+  width: 100%;
+  max-width: 800px;
+  padding: 0 var(--container-padding);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/*
+  .container-right
+  Контейнер с отступом слева и контентом, расположенным ближе к правому краю.
+*/
+.container-right
+{
+  // Базовые стили для desktop
+  width: 50%;
+  padding-left: var(--container-padding);
+  padding-right: 0;
+  margin-left: auto;
+  box-sizing: border-box;
+
+  // Планшеты и меньше
+  @include desktop-small-down()
+  {
+    width: 100%;
+  }
+}
+
+/*
+  .container-left
+  Контейнер с отступом справа и контентом, расположенным ближе к левому краю.
+*/
+.container-left
+{
+  // Базовые стили для desktop
+  width: 50%;
+  padding-left: 0;
+  padding-right: var(--container-padding);
+  margin-right: auto;
+  box-sizing: border-box;
+
+  // Планшеты и меньше
+  @include desktop-small-down()
+  {
+    width: 100%;
+  }
+}
+
+// Адаптивные visibility
+.hidden-mobile
+{
+  @include mobile()
+  {
+    display: none !important;
+  }
+}
+
+.hidden-tablet
+{
+  @include tablet()
+  {
+    display: none !important;
+  }
+}
+
+.hidden-desktop
+{
+  @include desktop()
+  {
+    display: none !important;
+  }
+}
+
+.visible-mobile
+{
+  display: none !important;
+
+  @include mobile()
+  {
+    display: block !important;
+  }
+}
+
+.visible-tablet
+{
+  display: none !important;
+
+  @include tablet()
+  {
+    display: block !important;
+  }
+}
+
+.visible-desktop
+{
+  display: none !important;
+
+  @include desktop()
+  {
+    display: block !important;
+  }
+}

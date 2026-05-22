@@ -1,0 +1,217 @@
+/* Миксины */
+
+// 1. Брейкпоинты
+$breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+// 2. Медиазапросы (desktop-first)
+// Базовые стили пишутся для desktop, затем уменьшаются для меньших экранов
+
+// Мобильные устройства
+@mixin mobile()
+{
+  @media (max-width: 767px) { @content; }
+}
+
+// Планшеты
+@mixin tablet()
+{
+  @media (max-width: 1023px) { @content; }
+}
+
+// Планшеты и меньше (включая мобильные)
+@mixin tablet-down()
+{
+  @media (max-width: 1023px) { @content; }
+}
+
+// Десктоп малый и меньше
+@mixin desktop-small-down()
+{
+  @media (max-width: 1199px) { @content; }
+}
+
+// Десктоп средний и меньше
+@mixin desktop-down()
+{
+  @media (max-width: 1399px) { @content; }
+}
+
+// Большие экраны и меньше
+@mixin large-down()
+{
+  @media (max-width: 2559px) { @content; }
+}
+
+// Десктоп и выше (для обратной совместимости, но в desktop-first базовые стили уже для desktop)
+@mixin desktop()
+{
+  @media (min-width: 1024px) { @content; }
+}
+
+// Планшеты и десктоп малый (для обратной совместимости)
+@mixin tablet-large()
+{
+  @media (max-width: 1199px) { @content; }
+}
+
+// Дополнительные брейкпоинты для точной настройки
+@mixin tablet-only()
+{
+  @media (min-width: 768px) and (max-width: 1023px) { @content; }
+}
+
+@mixin desktop-small-only()
+{
+  @media (min-width: 1024px) and (max-width: 1199px) { @content; }
+}
+
+@mixin desktop-medium-only()
+{
+  @media (min-width: 1200px) and (max-width: 1399px) { @content; }
+}
+
+@mixin desktop-large-only()
+{
+  @media (min-width: 1400px) and (max-width: 2559px) { @content; }
+}
+
+// 2. Шрифты и типографика
+@mixin font($size, $line-height, $weight: 400)
+{
+  font-size: $size;
+  line-height: $line-height;
+  font-weight: $weight;
+}
+
+// 3. Контейнеры
+@mixin container($max-width: 1200px)
+{
+  max-width: $max-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+}
+
+// 4. Helpers
+@mixin truncate($lines: 1)
+{
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  line-clamp: $lines;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin visually-hidden()
+{
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// 5. Анимации
+@mixin transition($property: all, $duration: 0.3s, $timing: ease)
+{
+  transition: $property $duration $timing;
+}
+
+@mixin fade-in($duration: 0.3s)
+{
+  opacity: 0;
+  animation: fadeIn $duration ease forwards;
+}
+
+@keyframes fadeIn
+{
+  to { opacity: 1; }
+}
+
+// 6. Грид и флекс
+@mixin flex-center()
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between()
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-column()
+{
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin grid-columns($count)
+{
+  display: grid;
+  grid-template-columns: repeat($count, 1fr);
+  gap: var(--spacing-md);
+}
+
+// 7. Адаптивная grid система (desktop-first)
+@mixin responsive-grid($desktop: 3, $tablet: 2, $mobile: 1)
+{
+  // Базовые стили для desktop
+  display: grid;
+  grid-template-columns: repeat($desktop, 1fr);
+  gap: var(--spacing-xl);
+
+  // Планшеты и меньше
+  @include desktop-small-down()
+  {
+    grid-template-columns: repeat($tablet, 1fr);
+    gap: var(--spacing-lg);
+  }
+
+  // Мобильные устройства
+  @include mobile()
+  {
+    grid-template-columns: repeat($mobile, 1fr);
+    gap: var(--spacing-md);
+  }
+}
+
+// 8. Адаптивные отступы (desktop-first)
+@mixin responsive-spacing($property, $desktop, $tablet: null, $mobile: null)
+{
+  // Базовое значение для desktop
+  #{$property}: $desktop;
+
+  // Планшеты и меньше
+  @if $tablet {
+    @include desktop-small-down()
+    {
+      #{$property}: $tablet;
+    }
+  }
+
+  // Мобильные устройства
+  @if $mobile {
+    @include mobile()
+    {
+      #{$property}: $mobile;
+    }
+  }
+}
+

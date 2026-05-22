@@ -1,0 +1,48 @@
+@use "mixins" as *;
+
+/* Адаптивные переменные (desktop-first) */
+/* Базовые значения установлены в variables/_spacing.scss и variables/_typography.scss для desktop */
+
+/* Адаптивные отступы для планшетов и меньше */
+@include desktop-small-down()
+{
+  :root
+  {
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 24px;
+    --spacing-xxl: 32px;
+    --container-padding: 24px;
+  }
+}
+
+/* Адаптивные отступы для мобильных */
+@include mobile()
+{
+  :root
+  {
+    --spacing-md: 8px;
+    --spacing-lg: 12px;
+    --spacing-xl: 16px;
+    --spacing-xxl: 24px;
+    --container-padding: 16px;
+  }
+}
+
+/* Адаптивная типографика для планшетов и меньше */
+@include desktop-small-down()
+{
+  :root
+  {
+    --font-size-base: 16px;
+  }
+}
+
+/* Адаптивная типографика для мобильных */
+@include mobile()
+{
+  :root
+  {
+    --font-size-base: 14px;
+  }
+}
