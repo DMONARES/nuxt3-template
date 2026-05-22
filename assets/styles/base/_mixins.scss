@@ -1,67 +1,32 @@
 /* Миксины */
 
-// 1. Брейкпоинты
-$breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1400px
-);
+// 1. Медиазапросы (desktop-first)
 
-// 2. Медиазапросы (desktop-first)
-// Базовые стили пишутся для desktop, затем уменьшаются для меньших экранов
-
-// Мобильные устройства
 @mixin mobile()
 {
   @media (max-width: 767px) { @content; }
 }
 
-// Планшеты
 @mixin tablet()
 {
   @media (max-width: 1023px) { @content; }
 }
 
-// Планшеты и меньше (включая мобильные)
-@mixin tablet-down()
-{
-  @media (max-width: 1023px) { @content; }
-}
-
-// Десктоп малый и меньше
 @mixin desktop-small-down()
 {
   @media (max-width: 1199px) { @content; }
 }
 
-// Десктоп средний и меньше
 @mixin desktop-down()
 {
   @media (max-width: 1399px) { @content; }
 }
 
-// Большие экраны и меньше
-@mixin large-down()
-{
-  @media (max-width: 2559px) { @content; }
-}
-
-// Десктоп и выше (для обратной совместимости, но в desktop-first базовые стили уже для desktop)
 @mixin desktop()
 {
   @media (min-width: 1024px) { @content; }
 }
 
-// Планшеты и десктоп малый (для обратной совместимости)
-@mixin tablet-large()
-{
-  @media (max-width: 1199px) { @content; }
-}
-
-// Дополнительные брейкпоинты для точной настройки
 @mixin tablet-only()
 {
   @media (min-width: 768px) and (max-width: 1023px) { @content; }
@@ -79,10 +44,10 @@ $breakpoints: (
 
 @mixin desktop-large-only()
 {
-  @media (min-width: 1400px) and (max-width: 2559px) { @content; }
+  @media (min-width: 1400px) { @content; }
 }
 
-// 2. Шрифты и типографика
+// 2. Типографика
 @mixin font($size, $line-height, $weight: 400)
 {
   font-size: $size;
@@ -141,7 +106,7 @@ $breakpoints: (
   to { opacity: 1; }
 }
 
-// 6. Грид и флекс
+// 6. Флекс / грид
 @mixin flex-center()
 {
   display: flex;
@@ -169,22 +134,19 @@ $breakpoints: (
   gap: var(--spacing-md);
 }
 
-// 7. Адаптивная grid система (desktop-first)
+// 7. Адаптивный грид (desktop-first)
 @mixin responsive-grid($desktop: 3, $tablet: 2, $mobile: 1)
 {
-  // Базовые стили для desktop
   display: grid;
   grid-template-columns: repeat($desktop, 1fr);
   gap: var(--spacing-xl);
 
-  // Планшеты и меньше
   @include desktop-small-down()
   {
     grid-template-columns: repeat($tablet, 1fr);
     gap: var(--spacing-lg);
   }
 
-  // Мобильные устройства
   @include mobile()
   {
     grid-template-columns: repeat($mobile, 1fr);
@@ -195,10 +157,8 @@ $breakpoints: (
 // 8. Адаптивные отступы (desktop-first)
 @mixin responsive-spacing($property, $desktop, $tablet: null, $mobile: null)
 {
-  // Базовое значение для desktop
   #{$property}: $desktop;
 
-  // Планшеты и меньше
   @if $tablet {
     @include desktop-small-down()
     {
@@ -206,7 +166,6 @@ $breakpoints: (
     }
   }
 
-  // Мобильные устройства
   @if $mobile {
     @include mobile()
     {
@@ -214,4 +173,3 @@ $breakpoints: (
     }
   }
 }
-

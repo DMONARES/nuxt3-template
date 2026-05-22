@@ -1,7 +1,5 @@
-/* Типографика — базовые классы */
 @use "mixins" as *;
 
-/* Заголовки */
 .h1,
 .h2,
 .h3,
@@ -18,8 +16,7 @@
   font-size: 72px;
   line-height: 115%;
 
-  @include tablet() {font-size: 40px;}
-
+  @include tablet() { font-size: 40px; }
   @include mobile() { font-size: 28px; }
 }
 
@@ -28,9 +25,8 @@
   font-size: 50px;
   line-height: 115%;
 
-  @include tablet() { font-size: 36px;}
-
-  @include mobile() { font-size: 24px;}
+  @include tablet() { font-size: 36px; }
+  @include mobile() { font-size: 24px; }
 }
 
 .h3
@@ -38,9 +34,8 @@
   font-size: 28px;
   line-height: 125%;
 
-  @include tablet() { font-size: 20px;}
-
-  @include mobile() { font-size: 18px;}
+  @include tablet() { font-size: 20px; }
+  @include mobile() { font-size: 18px; }
 }
 
 .h4
@@ -48,9 +43,8 @@
   font-size: 20px;
   line-height: 150%;
 
-  @include tablet() { font-size: 18px;}
-
-  @include mobile() { font-size: 16px;}
+  @include tablet() { font-size: 18px; }
+  @include mobile() { font-size: 16px; }
 }
 
 .h5
@@ -58,12 +52,9 @@
   font-size: 18px;
   line-height: 150%;
 
-  @include tablet() {}
-
   @include mobile() { font-size: 16px; }
 }
 
-/* Абзацы */
 .text-big,
 .text,
 .text-mini,
@@ -74,10 +65,6 @@
   font-size: 18px;
   line-height: 130%;
   font-weight: 600;
-
-  // @include tablet() {}
-
-  // @include mobile() {}
 }
 
 .text
@@ -86,8 +73,6 @@
   line-height: 125%;
   font-weight: 400;
 
-  // @include tablet() {}
-
   @include mobile() { font-size: 14px; }
 }
 
@@ -95,19 +80,13 @@
 {
   font-size: 13px;
   line-height: 120%;
-	font-weight: 600;
-
-  // @include tablet() {}
+  font-weight: 600;
 }
 
 .button
 {
-	font-size: 18px;
-	line-height: 24px;
-	font-weight: 600;
-	text-transform: uppercase;
-
-  // @include tablet() {}
-
-  // @include mobile() {}
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+  text-transform: uppercase;
 }

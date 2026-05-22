@@ -1,20 +1,11 @@
-const publicRouteRules = process.env.NODE_ENV === 'production'
-	? {
-		'/': { swr: 300 },
-		'/section/**': { swr: 300 },
-		'/project/**': { swr: 300 },
-		'/plug': { swr: 300 },
-	}
-	: {};
-
 export default defineNuxtConfig({
 	modules: ['@pinia/nuxt', '@nuxtjs/sitemap', 'proxima-vue/nuxt', '@nuxtjs/robots', '@nuxt/image'],
 
-	site: {
-		url: 'https://atomnews.ru',
-	},
-
 	// ssr: false,
+
+	site: {
+		url: process.env.NUXT_SITE_URL,
+	},
 
 	app: {
 		head: {
@@ -30,25 +21,19 @@ export default defineNuxtConfig({
 				{ name: 'apple-mobile-web-app-capable', content: 'yes' },
 				{ name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
 				{ name: 'format-detection', content: 'telephone=no' },
-				{ name: 'yandex-verification', content: '9e9c6fce3083fa0d' },
 				{ name: 'theme-color', content: '#ffffff' }
 			]
 		}
 	},
 
 	sitemap: {
-	includeAppSources: false,
-	urls: [
-		{
-			loc: '/',
-			changefreq: 'daily',
-			priority: 1.0,
-		},
-	],
+		includeAppSources: false,
+		urls: [
+			{ loc: '/', changefreq: 'daily', priority: 1.0 },
+		],
 	},
 
 	robots: {
-		sitemap: 'https://atomnews.ru/sitemap.xml',
 		groups: [
 			{
 				userAgents: ['*'],
@@ -69,9 +54,8 @@ export default defineNuxtConfig({
 		},
 		domains: (process.env.NUXT_IMAGE_DOMAINS || '')
 			.split(',')
-			.map((domain) => domain.trim())
-			.filter(Boolean)
-			.concat('atomnews.ru'),
+			.map((d) => d.trim())
+			.filter(Boolean),
 	},
 
 	runtimeConfig:
@@ -86,9 +70,6 @@ export default defineNuxtConfig({
 	{
 		routeRules:
 		{
-			...publicRouteRules,
-
-			// Proxy API to avoid browser CORS (works when Nitro server is running)
 			'/api/**':
 			{
 				proxy: `${(process.env.NUXT_PUBLIC_API_HOST || '').replace(/\/$/, '')}/api/**`
