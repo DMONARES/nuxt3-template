@@ -8,14 +8,11 @@ const handleError = () => clearError({ redirect: '/' });
 
 <template>
 	<div class="error-layout">
-		<Header/>
 		<main class="error-layout__main">
 			<div class="error-layout__wrapper">
-				<Icons404 />
 				<div class="error-layout__title">страница не найдена</div>
 			</div>
 		</main>
-		<Footer/>
 	</div>
 </template>
 
